@@ -19,4 +19,4 @@ The password for this IAM user is stored in Michael's Dashlane account.
 
 ### S3 Buckets
 
-An S3 bucket to store the raw and QC'd data was created. This bucket is called 'aws-project-1-data'. 
+An S3 bucket to store the raw and QC'd data was created. This bucket is called 'aws-project-1-data'. Here raw CSV files, processed and QC'd data will be stored.
