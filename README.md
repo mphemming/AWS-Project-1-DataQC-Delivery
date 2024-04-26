@@ -16,3 +16,7 @@ The below sections will contain notes and information useful to replicate the pr
 
 MFA was enabled for the root user as recommended, and an IAM user 'Michael_developer' with console access and full admin rights was created. This IAM user will be used to work on this project.
 The password for this IAM user is stored in Michael's Dashlane account. 
+
+### S3 Buckets
+
+An S3 bucket to store the raw and QC'd data was created. This bucket is called 'aws-project-1-data'. 
