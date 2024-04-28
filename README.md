@@ -34,3 +34,10 @@ The following Python packages are used:
 * h5py==3.11.0
 
 (TO BE UPDATED AS I GO ALONG)
+
+I downloaded the files after searching for the specific package here: https://pypi.org/. 
+I then zipped the folder and uploaded it to the 'aws-project-1-data' S3 bucket.
+
+### Python testing
+
+I test python code locally using the AWS-Project-1-DataQC-Delivery Anaconda environment (see AWS-Project-1-DataQC-Delivery.yml file).
