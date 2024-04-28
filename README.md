@@ -32,6 +32,7 @@ The following Python packages are used:
 * numpy==1.26.4
 * netcdf4==1.6.5
 * h5py==3.11.0
+* boto3==1.34.93
 
 (TO BE UPDATED AS I GO ALONG)
 
