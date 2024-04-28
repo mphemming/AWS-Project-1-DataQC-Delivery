@@ -27,10 +27,10 @@ An S3 bucket to store the raw and QC'd data was created with the standard option
 
 The following Python packages are used:
 
-libnetcdf==0.0.1
-xarray==2024.3.0
-numpy==1.26.4
-netcdf4==1.6.5
-h5py==3.11.0
+* libnetcdf==0.0.1
+* xarray==2024.3.0
+* numpy==1.26.4
+* netcdf4==1.6.5
+* h5py==3.11.0
 
 (TO BE UPDATED AS I GO ALONG)
