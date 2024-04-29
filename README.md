@@ -7,6 +7,7 @@ Eventually, Plots will be created and shared via AWS Simple Email Service (SES) 
 securely be accessed. 
 
 Project progress can be tracked here: https://github.com/users/mphemming/projects/2/views/1
+Some code used here will be based on the code available here: https://github.com/mphemming/lambda-fishsoop-moana-qc1/tree/main/fishoop-moana-qc1/ops_qc
 
 ## Project information
 
