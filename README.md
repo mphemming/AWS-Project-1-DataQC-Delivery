@@ -34,10 +34,21 @@ The following Python packages are used:
 * h5py==3.11.0
 * boto3==1.34.93
 
-(TO BE UPDATED AS I GO ALONG)
+(TO BE UPDATED AS I GO ALONG, also the dependencies folder and zip)
 
 I downloaded the files after searching for the specific package here: https://pypi.org/. 
-I then zipped the folder and uploaded it to the 'aws-project-1-data' S3 bucket.
+I then zipped the 'dependencies' folder and named the archive 'dependencies.zip' and uploaded it to the 'aws-project-1-data' S3 bucket.
+
+I used the following command in AWS CloudShell to create the Lambda layer:
+
+```
+aws lambda publish-layer-version --layer-name aws-project-1-layer --description "The Lambda Python layer including dependencies required to perform QC and data delivery" --content S3Bucket=aws-project-1-data,S3Key=dependencies.zip --compatible-runtimes python3.12
+```
+
+To check that the layer was created, you can use:
+```
+aws lambda list-layers
+```
 
 ### Python testing
 
