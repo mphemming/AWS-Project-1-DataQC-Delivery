@@ -23,6 +23,8 @@ The password for this IAM user is stored in Michael's Dashlane account.
 
 An S3 bucket to store the raw and QC'd data was created with the standard option within the ap-southeast-2 (Sydney) region spread across >= 3 AZs. This bucket is called 'aws-project-1-data'. Here raw CSV files, processed and QC'd data will be stored.
 
+## Lambda
+
 ### Python Dependencies
 
 The following Python packages are used:
@@ -49,6 +51,14 @@ To check that the layer was created, you can use:
 ```
 aws lambda list-layers
 ```
+
+### Lambda Function notes
+
+For a Lambda function to work, the script needs to contain modules (functions) which can be called. For example, in the TestPackages.py script there is a module called 'lambda_header'.
+
+To upload a script that you want to run within the lambda function, you click on 'upload from' when in the 'code' section. The button is on the righthandside. Then you can copy the URL for code stored in the Amazon S3 location. The code has to be zipped for this to work. 
+
+To get the Lambda function to run the code, you have to scroll down and select 'edit runtime settings'. Here in the 'Handler' cell, you type the script name followed by the module name required, with a dot separating them. For example, to run the module 'Lambda_handler' in 'TestPackages.py', you would write 'TestPackages.lambda_handler' in this 'Handler' cell. 
 
 ### Python testing
 
