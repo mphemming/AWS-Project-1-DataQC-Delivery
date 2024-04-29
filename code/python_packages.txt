@@ -1,0 +1,6 @@
+libnetcdf version: 4.9.2
+xarray version: 2024.3.0
+numpy version: 1.26.4
+netcdf4 version: 1.6.5
+h5py version: 3.11.0
+boto3 version: 1.34.93
