@@ -20,11 +20,13 @@ The password for this IAM user is stored in Michael's Dashlane account.
 
 ### Regions
 
+I am working within the ap-southeast-2 (Sydney) region. 
+
 ### S3 Buckets
 
 An S3 bucket to store the raw and QC'd data was created with the standard option within the ap-southeast-2 (Sydney) region spread across >= 3 AZs. This bucket is called 'aws-project-1-data'. Here raw CSV files, processed and QC'd data will be stored.
 
-Another S3 bucket called 'aws-project-1-code' was created to store useful code. 
+Another S3 bucket called 'aws-project-1-code' was created to store useful code. The S3 buckket 'aws-project-1-data-participation' was also created to store participant infromation CSV files.  
 
 ## Lambda
 
@@ -66,3 +68,12 @@ To get the Lambda function to run the code, you have to scroll down and select '
 ### Python testing
 
 I test python code locally using the AWS-Project-1-DataQC-Delivery Anaconda environment (see AWS-Project-1-DataQC-Delivery.yml file).
+
+
+## Participant Information
+
+Participant information (e.g. vessel name, Port) is received in an aggregated CSV files. When the CSV file in an S3 bucket is updated, a trigger will run a lambda function to convert the information into a DynamoDB database. The below steps were taken:
+
+* To Do 
+
+
