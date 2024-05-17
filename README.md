@@ -77,13 +77,12 @@ Participant information (e.g. vessel name, Port) is received in an aggregated CS
 The below steps were taken:
 
 * Store example CSV in S3 bucket 'aws-project-1-data-participation'
-
-* Create a DynamoDB table with the following settings: 'user_id' as the partition key (set as a number), no sort key was used, default settings (provisioned)
+* Create a DynamoDB table called 'participant-information' with the following settings: 'user_id' as the partition key (set as a number), no sort key was used, default settings (provisioned)
 * Setup Point-in-time recovery (PITR) found in the 'backups' section (didn't do this for this example)
-* Setup the permissions so that only the 'Michael_developer' IAM user can read/write into the table. First create an IAM policy in the console. Navigate to 'policies' on the left and click on 'create policy'. Then click on 'json' and copy the code below with the correct Amazon Resource Number (ARN) that can be found in the infromation section for the DynamoDB table. I saved the policy as 'participant-information-dynamoDB'. Then navigate to the 'users' section in the IAM console, find the user 'Michael_developer', click 'add permissions' and then 'attach policies directly' to add the newly-created policy. Then use 'access-analyzer' to test that only 'Michael_developer' can read/write into the table. I created a new 'external access analysis' called 'CheckDynamoDBpermissions'. 
+* Setup the permissions so that only the 'Michael_developer' IAM user can read/write into the table. First create an IAM policy in the console. Navigate to 'policies' on the left and click on 'create policy'. Then click on 'json' and copy the code below with the correct Amazon Resource Number (ARN) that can be found in the infromation section for the DynamoDB table. I saved the policy as 'participant-information-dynamoDB'. Then navigate to the 'users' section in the IAM console, find the user 'Michael_developer', click 'add permissions' and then 'attach policies directly' to add the newly-created policy. Then use 'access-analyzer' to test that only 'Michael_developer' can read/write into the table. I created a new 'external access analysis' called 'CheckDynamoDBpermissions'. The policy json code was also copied into the 'Resource-based policy for table' section to ensure that the policy is attached as I was still getting errors. 
 * Encryption: All user data stored in Amazon DynamoDB is fully encrypted at rest. No need to do anything. 
-* Deletion protection: make sure to turn this on, which can be done in the 'additonal settings' tab
-* 
+* Deletion protection: make sure to turn this on, which can be done in the 'additonal settings' tab.
+* I created a script called 'CSV2Dynamo.py' that successfully transfered rows in the 'ParticipationJotForm.CSV' to the DynamoDB table 'participant-information'.
 
 ```
 {
@@ -107,6 +106,7 @@ The below steps were taken:
 }
 ```
 
+
 **Notes:**
 
 Partition key
@@ -117,3 +117,6 @@ You can use a sort key as the second part of a table's primary key. The sort key
 
 For extra security, check VPC settings to ensure table cannot be accessed via the web. Depends on how the VPC network and subnets are setup I guess. 
 
+To put items into DynamoDB table, you are required to use AWS access key ID and the associated secret access key. These are different to the IAM user and password used for login to the AWS console. To create the access key ID and secret access key, you can do so by navigating to the IAM console, clicking on the IAM user account and creating them. 
+
+It is important that you respect the data type of the DynamoDB table columns. I have used 'user_id' for the partition key, which is a number, so in the json file you have to specify 'N' (see code example in repo). The other columns are strings, so 'S'.  
