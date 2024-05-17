@@ -65,6 +65,8 @@ To upload a script that you want to run within the lambda function, you click on
 
 To get the Lambda function to run the code, you have to scroll down and select 'edit runtime settings'. Here in the 'Handler' cell, you type the script name followed by the module name required, with a dot separating them. For example, to run the module 'Lambda_handler' in 'TestPackages.py', you would write 'TestPackages.lambda_handler' in this 'Handler' cell. 
 
+If you receive a 'timeout' error, that's because the default configuration is for 3 seconds when running a Lambda function. You can increase this in the 'configuration' tab. 
+
 ### Python testing
 
 I test python code locally using the AWS-Project-1-DataQC-Delivery Anaconda environment (see AWS-Project-1-DataQC-Delivery.yml file).
@@ -111,8 +113,43 @@ The below steps were taken:
 
 * Store example CSV in S3 bucket 'aws-project-1-data-participation'
 * I created a script called 'CSV2Dynamo.py' that successfully transfered rows in the 'ParticipationJotForm.CSV' to the DynamoDB table 'participant-information'.
+* I created a Lambda function called 'CSV2DynamoDB'. Inside this Lambda function, the script 'CSV2DynamoLambda.py' is copied.
+* Give the Lambda function the permissions necessary to getObject from S3 bucket, and putItem in DynamoDB table. See example json code below if you want to create a policy specific for this. However, I granted permission by navigating to the IAM console, finding the Lambda function role 'CSV2DynamoDB', and I created and attaced an administration-access policy (allows everything).
 
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::your-s3-bucket-name/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem"
+            ],
+            "Resource": "arn:aws:dynamodb:your-region:your-account-id:table/your-dynamodb-table-name"
+        }
+    ]
+}
+```
 
+### Create a trigger 
+
+* I created a trigger so that everytime the 'ParticipationJotForm.CSV' is updated, the Lambda function is executed and new rows are added. To do this, I needed to setup an S3 event notification:
+
+1. Navigate to the S3 bucket 'aws-project-1-data-participation' containing the 'ParticipationJotForm.CSV' file
+2. In the bucket details page, go to the "Properties" tab
+3. Scroll down to the "Event notifications" section and click "Create event notification"
+4. Fill out the event notifications details. For 'event types' select "All object create events". For the 'prefix' include 'ParticipationJotForm.CSV' and for the 'suffix' specify '.csv'.
+5. Under "Send to", select "Lambda Function", and then choose the Lambda function that you created
+6. Save changes
+
+I tested the trigger by uploading a new CSV file to the S3 bucket and then checked the DynamoDB table (it worked!). 
 
 **Notes:**
 
