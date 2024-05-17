@@ -137,6 +137,10 @@ The below steps were taken:
     ]
 }
 ```
+* copy and paste the code from 'CSV2DynamoLambda.py' into a script inside the lambda funcion. This code is similar to 'CSV2Dynamo.py' but adapted to be executed inside a Lambda function. Also available in the Github repository.
+* Setup the conifuguration to run CSV2DynamoLambda.lambda_handler
+* Increase runtime to more than the default 3 seconds (as failed for me otherwise). You can increase this in the 'configuration' tab. 
+* Deploy this code and test (it works). 
 
 ### Create a trigger 
 
