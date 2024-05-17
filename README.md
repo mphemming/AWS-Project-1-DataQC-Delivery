@@ -70,10 +70,50 @@ To get the Lambda function to run the code, you have to scroll down and select '
 I test python code locally using the AWS-Project-1-DataQC-Delivery Anaconda environment (see AWS-Project-1-DataQC-Delivery.yml file).
 
 
-## Participant Information
+## Participant Information Database
 
-Participant information (e.g. vessel name, Port) is received in an aggregated CSV files. When the CSV file in an S3 bucket is updated, a trigger will run a lambda function to convert the information into a DynamoDB database. The below steps were taken:
+Participant information (e.g. vessel name, Port) is received in an aggregated CSV files exported from JotForm. When the CSV file in an S3 bucket is updated, a trigger will run a lambda function to convert the information into a DynamoDB table (database). Why DynamoDB? it's easy to manage (serverless), can automatically be updated with new columns in future as it is noSQL, it has automated backups, and it's spread across multiple availability zones by default. 
 
-* To Do 
+The below steps were taken:
 
+* Store example CSV in S3 bucket 'aws-project-1-data-participation'
+
+* Create a DynamoDB table with the following settings: 'user_id' as the partition key (set as a number), no sort key was used, default settings (provisioned)
+* Setup Point-in-time recovery (PITR) found in the 'backups' section (didn't do this for this example)
+* Setup the permissions so that only the 'Michael_developer' IAM user can read/write into the table. First create an IAM policy in the console. Navigate to 'policies' on the left and click on 'create policy'. Then click on 'json' and copy the code below with the correct Amazon Resource Number (ARN) that can be found in the infromation section for the DynamoDB table. I saved the policy as 'participant-information-dynamoDB'. Then navigate to the 'users' section in the IAM console, find the user 'Michael_developer', click 'add permissions' and then 'attach policies directly' to add the newly-created policy. Then use 'access-analyzer' to test that only 'Michael_developer' can read/write into the table. I created a new 'external access analysis' called 'CheckDynamoDBpermissions'. 
+* Encryption: All user data stored in Amazon DynamoDB is fully encrypted at rest. No need to do anything. 
+* Deletion protection: make sure to turn this on, which can be done in the 'additonal settings' tab
+* 
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+            ],
+            "Resource": "arn:aws:dynamodb:region:account-id:table/YourTableName"
+        }
+    ]
+}
+```
+
+**Notes:**
+
+Partition key
+The partition key is part of the table's primary key. It is a hash value that is used to retrieve items from your table and allocate data across hosts for scalability and availability.
+
+Sort key - optional
+You can use a sort key as the second part of a table's primary key. The sort key allows you to sort or search among all items sharing the same partition key.
+
+For extra security, check VPC settings to ensure table cannot be accessed via the web. Depends on how the VPC network and subnets are setup I guess. 
 
