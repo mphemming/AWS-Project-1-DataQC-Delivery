@@ -114,7 +114,7 @@ The below steps were taken:
 * Store example CSV in S3 bucket 'aws-project-1-data-participation'
 * I created a script called 'CSV2Dynamo.py' that successfully transfered rows in the 'ParticipationJotForm.CSV' to the DynamoDB table 'participant-information'.
 * I created a Lambda function called 'CSV2DynamoDB'. Inside this Lambda function, the script 'CSV2DynamoLambda.py' is copied.
-* Give the Lambda function the permissions necessary to getObject from S3 bucket, and putItem in DynamoDB table. See example json code below if you want to create a policy specific for this. However, I granted permission by navigating to the IAM console, finding the Lambda function role 'CSV2DynamoDB', and I created and attaced an administration-access policy (allows everything).
+* Give the Lambda function the permissions necessary to getObject from S3 bucket, and putItem in DynamoDB table. See example json code below if you want to create a policy specific for this. However, I granted permission by navigating to the IAM console, finding the Lambda function role 'CSV2DynamoDB', and I created and attached an administration-access policy (allows everything).
 
 ```
 {
@@ -140,7 +140,7 @@ The below steps were taken:
 
 ### Create a trigger 
 
-* I created a trigger so that everytime the 'ParticipationJotForm.CSV' is updated, the Lambda function is executed and new rows are added. To do this, I needed to setup an S3 event notification:
+I created a trigger so that everytime the 'ParticipationJotForm.CSV' is updated, the Lambda function is executed and new rows are added. To do this, I needed to setup an S3 event notification:
 
 1. Navigate to the S3 bucket 'aws-project-1-data-participation' containing the 'ParticipationJotForm.CSV' file
 2. In the bucket details page, go to the "Properties" tab
