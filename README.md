@@ -72,6 +72,8 @@ If you receive a 'timeout' error, that's because the default configuration is fo
 I test python code locally using the AWS-Project-1-DataQC-Delivery Anaconda environment (see AWS-Project-1-DataQC-Delivery.yml file).
 
 
+## Process and QC data
+
 ## Participant Information Database
 
 Participant information (e.g. vessel name, Port) is received in an aggregated CSV files exported from JotForm. When the CSV file in an S3 bucket is updated, a trigger will run a lambda function to convert the information into a DynamoDB table (database). Why DynamoDB? it's easy to manage (serverless), can automatically be updated with new columns in future as it is noSQL, it has automated backups, and it's spread across multiple availability zones by default. 
@@ -168,3 +170,5 @@ For extra security, check VPC settings to ensure table cannot be accessed via th
 To put items into DynamoDB table, you are required to use AWS access key ID and the associated secret access key. These are different to the IAM user and password used for login to the AWS console. To create the access key ID and secret access key, you can do so by navigating to the IAM console, clicking on the IAM user account and creating them. 
 
 It is important that you respect the data type of the DynamoDB table columns. I have used 'user_id' for the partition key, which is a number, so in the json file you have to specify 'N' (see code example in repo). The other columns are strings, so 'S'.  
+
+## Send email to participants
